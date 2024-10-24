@@ -1,4 +1,4 @@
-Cuối kỳ Android:
+Android:
 
 Các thư viện sử dụng trong ứng dụng:
 	- Retrofit
@@ -30,4 +30,4 @@ Các package:
 		- RetrofitClient: khởi tạo retrofit.
 
 		
-
+File APIPHP: được sử dụng để nhận và gửi các dữ liệu lên server. Trong project này sử dụng mysqli của Xampp. Tệp này được để trong thư mục htdocs của Xampp
