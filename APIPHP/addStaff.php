@@ -26,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // Kiểm tra xem nhân viên đã tồn tại chưa
-    $sql = "SELECT staff_id FROM staff WHERE username = ?";
+    $sql = "SELECT staff_id FROM staff WHERE username = ? OR email = ?";
     $stmt = $connect->prepare($sql);
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
