@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
     // Kiểm tra nếu fromDate và toDate có dữ liệu
     if (!empty($fromDate) && !empty($toDate)) {
-        $query .= " WHERE p.payment_date BETWEEN ? AND ?";
+        $query .= " WHERE STR_TO_DATE(p.payment_date, '%d/%m/%Y') BETWEEN STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y')";
     } else {
         $query .= " WHERE p.payment_date IS NOT NULL";
     }
