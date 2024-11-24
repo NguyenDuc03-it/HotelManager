@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     } else {
         $query .= " WHERE p.payment_date IS NOT NULL";
     }
-
+    
     $query .= " GROUP BY r.room_type";
     $stmt = $connect->prepare($query);
     if (!empty($fromDate) && !empty($toDate)) {

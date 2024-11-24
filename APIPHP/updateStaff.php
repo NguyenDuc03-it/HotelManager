@@ -22,6 +22,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $phone = $data['phone'];
     $password = $data['password'];
 
+    // Kiểm tra email có trùng với nhân viên khác không
+    $check_email_sql = "SELECT * FROM staff WHERE email = ? AND staff_id != ?";
+    $stmt = $connect->prepare($check_email_sql);
+    $stmt->bind_param("si", $email, $staff_id);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $response = array(
+            "success" => false,
+            "message" => "Email đã tồn tại trong hệ thống!"
+        );
+    }
+    else{
 
     // Cập nhật thông tin nhân viên
     $sql = "UPDATE staff SET fullname = ?, sex = ?, email = ?, phone = ?, password = ? WHERE staff_id = ?";
@@ -40,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "message" => "Cập nhật thất bại!"
         );
     }
-
+    }
     // Đặt header để trả về dữ liệu JSON
     header('Content-Type: application/json');
     echo json_encode($response);

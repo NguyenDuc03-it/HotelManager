@@ -14,8 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Khách hàng tồn tại, tiến hành xóa
-        $sql = "DELETE FROM customers WHERE customer_id = ?";
+        // Khách hàng tồn tại, nếu không có bất kỳ bookings nào chưa thanh toán tiến hành xóa
+        $sql = "DELETE FROM customers 
+                WHERE customer_id = ?
+                AND customer_id NOT IN (
+                    SELECT customer_id 
+                    FROM bookings 
+                    WHERE status = 'Chưa thanh toán'
+                )
+                ";
         $stmt = $connect->prepare($sql);
         $stmt->bind_param("i", $customerId);
         $stmt->execute();
@@ -26,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             "message" => "Xóa khách hàng thành công!"
         );
     } else {
-        // Khách hàng không tồn tại
+        // Khách hàng không tồn tại hoặc chưa thanh toán
         $response = array(
             "success" => false,
-            "message" => "Khách hàng không tồn tại!"
+            "message" => "Khách hàng không tồn tại hoặc chưa thanh toán tiền phòng!"
         );
     }
 

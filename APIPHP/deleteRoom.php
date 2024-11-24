@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $roomId = $_GET['room_id']; // Sử dụng $_GET để lấy tham số từ query string
 
     // Kiểm tra xem room có tồn tại không
-    $sql = "SELECT room_id FROM rooms WHERE room_id = ?";
+    $sql = "SELECT room_id FROM rooms WHERE room_id = ? AND status <> 'Đã đặt'";
     $stmt = $connect->prepare($sql);
     $stmt->bind_param("i", $roomId); // Sử dụng "i" nếu room_id là số nguyên
     $stmt->execute();
@@ -37,10 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             "message" => "Xóa phòng thành công!"
         );
     } else {
-        // Khách hàng không tồn tại
+        // Phòng không tồn tại
         $response = array(
             "success" => false,
-            "message" => "Phòng không tồn tại!"
+            "message" => "Phòng không tồn tại hoặc đã được đặt!"
         );
     }
 

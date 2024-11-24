@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $price = $data['price'];
 
     // Cập nhật thông tin phòng
-    $sql = "UPDATE rooms SET room_type = ?, price = ? WHERE room_number = ?";
+    $sql = "UPDATE rooms SET room_type = ?, price = ? WHERE room_number = ? AND status <> 'Đã đặt'";
     $stmt = $connect->prepare($sql);
     $stmt->bind_param("sss", $room_type, $price, $room_number);
     $stmt->execute();
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         $response = array(
             "success" => false,
-            "message" => "Không có phòng nào được cập nhật!"
+            "message" => "Phòng đã được đặt hoặc không được tìm thấy!"
         );
     }
 
